@@ -25,6 +25,7 @@
                 <br><br>
                 <button type="button" id="btnAgregar">Agregar</button>
                 <button type="button" id="btnEliminar">Eliminar</button>
+                <button type="button" id="btnInsertar">Insertar</button>
                 <button type="button" id="btnBuscar">Buscar</button>
                 <button type="button" id="btnListar">Listado</button>
                 <button type="button" id="btnListarInv">Listado Inverso</button>
@@ -41,6 +42,7 @@
 <script>
 let miAlmacen = new Inventario();
 
+
 //  Boton agregar producto
 
 let btnAgregar = document.getElementById("btnAgregar");
@@ -55,6 +57,8 @@ btnAgregar.addEventListener("click", (event)=>{
     document.getElementById("listado");
     event.preventDefault();
 });
+
+
 
 //Boton para eliminar producto
 
@@ -82,7 +86,7 @@ btnListar.addEventListener("click", (event)=>{
 
 let btnListarInv = document.getElementById("btnListarInv");
 btnListarInv.addEventListener("click", (event) => {
-    document.getElementById("listado").innerHTML +=`${miAlmacen.listarInverso()}`
+    document.getElementById("listado").innerHTML +=` <textarea>${miAlmacen.listarInverso()}</textarea>`
     event.defaultPrevented();
 });
 
@@ -108,6 +112,35 @@ const btnRestablecer = document.getElementById("btnRestablecer");
         event.defaultPrevented();
 
     });
+
+    //Boton Insertar
+
+let btnInsertar = document.getElementById("btnInsertar");
+btnInsertar.addEventListener("click", () => {
+    document.getElementById("listado").innerHTML = `<h3>Ìnsertar producto</h3>`;
+    codigo = document.getElementById("codigo").value;
+    nombre = document.getElementById("nombre").value;
+    cantidad = document.getElementById("cantidad").value;
+    costo = document.getElementById("costo").value; 
+        let producto = new Producto(codigo, nombre, cantidad, costo);
+
+        let prosicion = prompt("Escriba la posicion en donde desea insertar el producto", "0");
+        if(prosicion != null) {
+            prosicion = Number(posicion);
+            if(prosicion <= 0){
+                prosicion = 1;
+            }
+            let msg = inventario.insertar(posicion, producto);
+                 if (msg != false) {
+            }
+        }
+    });
+
+        
+
+        
+
+
 </script>
 
 </html>

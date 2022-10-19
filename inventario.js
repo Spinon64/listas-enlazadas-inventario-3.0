@@ -6,6 +6,7 @@ class Producto {
         this.costo = costo;
         this.codigo = codigo;
         this.cantidad = cantidad;
+        this.next = null;
 
     }
 
@@ -17,65 +18,67 @@ class Producto {
 
 
 
-
+class Nodo{
+    constructor(producto){
+        this.producto = producto;
+        this.next = null;
+    }
+}
 
 class Inventario{
     constructor(){
-        this.lista = new Array();
+        this.primero = null;
     }
 
 //Codigo agregar productos
 
 
 agregar(producto){
-    let i = this.lista.length;
-    if (i == 0) {
-        this.lista[i] = producto;
-        return true;
+   
+    if(this.primero == null){
+        this.primero = producto;
+    } else {
+        let temp = this.primero;
+            while (temp.next != null){
+                temp = temp.next;
+            }
+                temp.next = producto;
     }
-        if (this.lista.length > 0) {
-         while (producto.codigo < this.lista[i - 1].codigo) {
-            this.lista[i] = this.lista[i - 1];
-            i--;
-        }
-        this.lista[i] = producto;
-
-        return true;
-    }
-
-    return false;
-
 }
    
 //Codigo eliminar productos
 
-eliminar(codigo){ 
-   
-    let producto = this.buscar(codigo);
-
-        if (producto != null) {
-            for (let i = 0; i < this.lista.length; i++) {
-                if (this.lista[i].codigo == codigo) {
-                    for (let j = i; j < this.lista.length; j++) {
-                        this.lista[j] = this.lista[j + 1];
-                    }
+eliminar(codigo) {
+    if (this.primero != null) {
+        if (this.primero.codigo === codigo) {
+            this.primero = this.primero.next;
+                return true;
+        }  else {
+            let prod = this.primero;
+             while (prod.next != null) {
+                if (prod.next.codigo === codigo) {
+                    let nextDel = prod.next.next;
+                    prod.next = nextDel;
+                    return true;
+                } else {
+                    prod = prod.next;
                 }
             }
-
-            this.lista.pop();
-            return true;
         }
-     }
-
+    }
+    return false;
+}
 //Codigo buscar productos
 
 buscar(codigo){ 
-    
-    for(let i = 0; i < this.lista.length; i++){
-        if(this.lista[i].codigo === codigo){
-            return this.lista[i];
+    let temp = this.primero;
+        while (temp != null) {
+            if(Number(temp.codigo)== Number(codigo)){ 
+                return temp;
+        } else {
+            temp = temp.next;
         }
-    }
+}
     return null;
 }
 
@@ -83,27 +86,69 @@ buscar(codigo){
 //Codigo listar productos
 
 listar(){   
-    
-    let listar = "";
-        for (let i = 0; i < this.lista.length; i++) {
-                listar += `Producto ${i+1} informacion del producto: ${this.lista[i].info()}`;
+    if (this.primero != null) {
+        return recorrerListar(this.primero);
+    } return "No existen productos";
+         function recorrerListar(producto){
+            if(producto.next == null) {
+                return `${producto.info()}`;
+            } else {
+                return `${producto.info()}\n${recorrerListar(producto.next)}`;
         }
-        return listar;
-    }
+     }
+ }
+
+//RecorrerInverso
+
+recorrerInverso(nodo){
+    if(nodo.next == null)
+        return `${nodo.info()}`
+        return `${this.recorrerInverso(nodo.next)} ${nodo.info()}`; 
+}
+
 
 //Codigo listar inverso
 
 listarInverso(){
+    if(this.primero == null){
+        return null;
+    } else {
+        let prod = "";
+            prod = this.recorrerInverso(this.primero);
+                return prod;
+    }
+}
 
-    let listadoInverso= "";
-        for (let i = this.lista.length-1; i >=0; i--) {
-           listadoInverso += `Producto ${i+1} informacion del producto: ${this.lista[i].info()}`;
+
+insertarPosicion(posicion, nuevo){
+    if(posicion <= 1){
+        if(this.primero != null){
+            nuevo.next = this.primero;
+        this.primero = nuevo;
+            return true;
+            
+    } else {
+        this.primero = nuevo;
+                return true;
+        
     }
-        return listadoInverso;
-    
-    
-    }
-} 
+
+} else {
+    let temp = this.primero, contador = 1;
+        while(temp.next != null){
+            if((contador + 1) == posicion){
+                nuevo.next = temp.next;
+                temp.next = nuevo;
+                return true;
+            } else {
+                temp = temp.next;
+                contador += 1;
+            }
+        }
+        return false;
+}    
+}
+}
 
 
 
