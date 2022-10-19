@@ -122,15 +122,17 @@ btnInsertar.addEventListener("click", () => {
     nombre = document.getElementById("nombre").value;
     cantidad = document.getElementById("cantidad").value;
     costo = document.getElementById("costo").value; 
-        let producto = new Producto(codigo, nombre, cantidad, costo);
+       
 
-        let posicion = prompt("Escriba la posicion en donde desea insertar el producto", "0");
+        let posicion = prompt("Escriba la posicion en donde desea insertar el producto", "1");
         if(posicion != null) {
             posicion = Number(posicion);
             if(posicion <= 0){
                 posicion = 1;
             }
-            let msg = miAlmacen.insertar(posicion, producto);
+            let producto = new Producto(codigo, nombre, cantidad, costo);
+            let msg = miAlmacen.insertarPosicion(posicion, producto);
+            
                  if (msg != false) {
                     return document.getElementById("listado");
             }
