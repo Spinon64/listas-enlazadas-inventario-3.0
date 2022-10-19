@@ -119,6 +119,7 @@ listarInverso(){
     }
 }
 
+//Insertar
 
 insertarPosicion(posicion, nuevo){
     if(posicion <= 1){
