@@ -117,21 +117,22 @@ const btnRestablecer = document.getElementById("btnRestablecer");
 
 let btnInsertar = document.getElementById("btnInsertar");
 btnInsertar.addEventListener("click", () => {
-    document.getElementById("listado").innerHTML = `<h3>Ìnsertar producto</h3>`;
+    document.getElementById("listado").innerHTML = `<h3>Insertar producto</h3>`;
     codigo = document.getElementById("codigo").value;
     nombre = document.getElementById("nombre").value;
     cantidad = document.getElementById("cantidad").value;
     costo = document.getElementById("costo").value; 
         let producto = new Producto(codigo, nombre, cantidad, costo);
 
-        let prosicion = prompt("Escriba la posicion en donde desea insertar el producto", "0");
-        if(prosicion != null) {
-            prosicion = Number(posicion);
-            if(prosicion <= 0){
-                prosicion = 1;
+        let posicion = prompt("Escriba la posicion en donde desea insertar el producto", "0");
+        if(posicion != null) {
+            posicion = Number(posicion);
+            if(posicion <= 0){
+                posicion = 1;
             }
-            let msg = inventario.insertar(posicion, producto);
+            let msg = miAlmacen.insertar(posicion, producto);
                  if (msg != false) {
+                    return document.getElementById("listado");
             }
         }
     });
